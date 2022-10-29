@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adslay.adslay">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.adslay.adslaytest">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
    <application
@@ -25,7 +26,31 @@
            <intent-filter>
                <action android:name="android.intent.action.MAIN"/>
                <category android:name="android.intent.category.LAUNCHER"/>
+
            </intent-filter>
+           <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+           <intent-filter android:autoVerify="true">
+               <action android:name="android.intent.action.VIEW"></action>
+               <category android:name="android.intent.category.DEFAULT"></category>
+               <category android:name="android.intent.category.BROWSABLE"></category>
+               <data android:scheme="http" android:host="adslaytest.page.link"></data>
+               <data android:scheme="https"></data>
+
+           </intent-filter>
+
+           <!--           <intent-filter android:autoVerify="true">-->
+<!--               <action android:name="android.intent.action.VIEW" />-->
+<!--               <category android:name="android.intent.category.DEFAULT" />-->
+<!--               <category android:name="android.intent.category.BROWSABLE" />-->
+<!--               <data android:scheme="http" android:host="flutterbooksample.com" />-->
+<!--               <data android:scheme="https" />-->
+<!--           </intent-filter>-->
+<!--           <intent-filter>-->
+<!--               <action android:name="android.intent.action.VIEW"/>-->
+<!--               <category android:name="android.intent.category.DEFAULT"/>-->
+<!--               <category android:name="android.intent.category.BROWSABLE"/>-->
+<!--               <data android:host=""/>-->
+<!--           </intent-filter>-->
        </activity>
        <!-- Don't delete the meta-data below.
             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

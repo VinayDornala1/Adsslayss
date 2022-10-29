@@ -419,7 +419,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                     border: OutlineInputBorder(
                       borderSide:
-                       BorderSide(color: const Color(0xFFFFFFFF), width: 1.0),
+                       const BorderSide(color: Color(0xFFFFFFFF), width: 1.0),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -432,14 +432,14 @@ class _SearchScreenState extends State<SearchScreen> {
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(40.0),
                       borderSide: BorderSide(
-                        color: Color(0xFFF2F2F2).withOpacity(1.0),
+                        color: const Color(0xFFF2F2F2).withOpacity(1.0),
                         width: 1.0,
                       ),
                     ),
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     filled: true,
-                    contentPadding: EdgeInsets.all(15),
+                    contentPadding: const EdgeInsets.all(15),
                     hintStyle: TextStyle(
                         color: ConstantColors.appTheme,
                         fontSize: 14,

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:adslay/CartScreen.dart';
 import 'package:adslay/ChoosePlan.dart';
 import 'package:adslay/SearchScreen.dart';
@@ -32,6 +31,7 @@ class _StoreDetailsState extends State<StoreDetails> {
   String email = '';
   String mobileNumber = '';
   bool isLoading = true;
+  bool isLoading1 = true;
   String deviceOS = '';
   double screenWidth = 0.0;
 
@@ -132,7 +132,115 @@ class _StoreDetailsState extends State<StoreDetails> {
               children: [
                 Stack(
                   children: <Widget>[
-                    Row(
+                    isLoading1
+                        ? Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Image.asset(
+                              "assets/images/back.png",
+                              width: 45,
+                              height: 65,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.only(top: 0, right: 30,left: 10),
+                            child: Image.asset("assets/images/home-logo.png",width: 130,)
+                        ),
+                        const Spacer(),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartScreen()));
+                          },
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  21.5), // if you need this
+                            ),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: Colors.transparent,
+                                  width: 43,
+                                  height: 43,
+
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(7, 10, 5, 0),
+                                  child: Image.asset(
+                                    "assets/images/cart.png",
+                                    width: 28,
+                                    height: 28,
+                                  ),
+                                ),
+                                MainScreen.cartItemsCount > 0 ?Positioned(
+                                  right: 0,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(bottom: 10.0),
+                                    child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration:  BoxDecoration(
+                                        color: ConstantColors.appTheme,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      //color: Colors.red,
+                                      child:  Center(
+                                        child: Text(
+                                          ""+MainScreen.cartItemsCount.toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 10,
+                                              fontFamily: "Mont-Regular"
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ):const SizedBox(height: 1,width: 1,)
+                              ],
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=> const SearchScreen()));
+                          },
+                          child: Card(
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  21.5), // if you need this
+                            ),
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: Colors.transparent,
+                                  width: 43,
+                                  height: 43,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      10, 10, 5, 0),
+                                  child: Image.asset(
+                                    "assets/images/search.png",
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                        : Row(
                       children: [
                         GestureDetector(
                           onTap: () {
@@ -319,7 +427,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                       ],
                     )
                 ):Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Stack(
                     children: [
                       Column(
@@ -352,7 +460,8 @@ class _StoreDetailsState extends State<StoreDetails> {
                                         errorWidget: (context, url, error) =>
                                             Image.asset("assets/images/logo.jpg"),
                                         //const Icon(Icons.refresh_outlined),
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.fill,
+                                        height: 220,
                                         width: double.infinity,
                                         // height: 150,
                                       )
@@ -469,9 +578,9 @@ class _StoreDetailsState extends State<StoreDetails> {
                       ],
                     )
                 ):Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 0, 5, 8),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 8),
                   child: Text(
-                    ""+title+','+city+','+state+','+country,
+                    " "+title+','+city+','+state+','+country,
                     maxLines: 2,
                     style: const TextStyle(
                         fontSize: 18.0,
@@ -556,10 +665,12 @@ class _StoreDetailsState extends State<StoreDetails> {
                       ],
                     )
                 ):Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: Card(
+                        elevation: 2,
+
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -568,7 +679,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                               width: MediaQuery.of(context).size.width,
                               //height: MediaQuery.of(context).size.width * 0.40,
                               child: const Padding(
-                                padding: EdgeInsets.fromLTRB(5, 10, 5, 8),
+                                padding: EdgeInsets.fromLTRB(10, 10, 5, 8),
                                 child: Text(
                                   "ADDITIONAL INFO",
                                   textAlign: TextAlign.start,
@@ -582,23 +693,26 @@ class _StoreDetailsState extends State<StoreDetails> {
                               height: 4,
                               width: 150,
                               child: Padding(
-                                padding: EdgeInsets.fromLTRB(5, 0
+                                padding: EdgeInsets.fromLTRB(10, 0
                                     , 5, 8),
                                 child: Divider(height: 1,color: Color(0xff3962cb),thickness: 1,),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 8, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:  [
-                                  const Text(
-                                    "Type",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      color: Color(0xff3962cb),
+                                  SizedBox(
+                                    width: 100,
+                                    child: const Text(
+                                      "Type",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        color: Color(0xff3962cb),
+                                      ),
                                     ),
                                   ),
                                   const Text(
@@ -628,17 +742,20 @@ class _StoreDetailsState extends State<StoreDetails> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 8, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Ad Screen",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      color: Color(0xff3962cb),
+                                  SizedBox(
+                                    width: 100,
+                                    child: const Text(
+                                      "Ad Screen",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        color: Color(0xff3962cb),
+                                      ),
                                     ),
                                   ),
                                   const Text(
@@ -668,17 +785,20 @@ class _StoreDetailsState extends State<StoreDetails> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 8, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "File Format",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      color: Color(0xff3962cb),
+                                  SizedBox(
+                                    width: 100,
+                                    child: const Text(
+                                      "File Format",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        color: Color(0xff3962cb),
+                                      ),
                                     ),
                                   ),
                                   const Text(
@@ -708,17 +828,21 @@ class _StoreDetailsState extends State<StoreDetails> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 8, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "Foot Traffic",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      color: Color(0xff3962cb),
+                                  SizedBox(
+                                    width: 100,
+
+                                    child: Text(
+                                      "Foot Traffic",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        color: Color(0xff3962cb),
+                                      ),
                                     ),
                                   ),
                                   Text(
@@ -748,17 +872,20 @@ class _StoreDetailsState extends State<StoreDetails> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 5, 8, 5),
+                              padding: const EdgeInsets.fromLTRB(10, 5, 8, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text(
-                                    "Cost",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15,
-                                      color: Color(0xff3962cb),
+                                  SizedBox(
+                                    width: 100,
+                                    child: const Text(
+                                      "Cost",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 15,
+                                        color: Color(0xff3962cb),
+                                      ),
                                     ),
                                   ),
                                   const Text(
@@ -874,7 +1001,12 @@ class _StoreDetailsState extends State<StoreDetails> {
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                     child: MaterialButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ChoosePlan(storeId: widget.storeId)));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ChoosePlan(storeId: widget.storeId))).then((value) => {
+                        setState(() {
+                        isLoading1 = true;
+                        }),
+
+                        });
                       },
                       textColor: Colors.white,
                       padding: const EdgeInsets.all(0.0),

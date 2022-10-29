@@ -493,7 +493,7 @@ class _HistoryScreen extends State<HistoryScreen> {
                   Row(
                     children:  [
                        Padding(
-                        padding: EdgeInsets.fromLTRB(10, 5, 5, 8),
+                        padding: const EdgeInsets.fromLTRB(10, 5, 5, 8),
                          child: Image.asset(
                            (ordersHistoryList[index]["PaymentStatus"] == "Completed")?"assets/images/completed.png":"assets/images/pending.png",
                            height: 30,
@@ -557,7 +557,7 @@ class _HistoryScreen extends State<HistoryScreen> {
                                           ),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                           child: Text(
                                             "" + ordersHistoryList[index]["ScreenSize"].toString(),
                                             textAlign: TextAlign.center,
@@ -657,7 +657,7 @@ class _HistoryScreen extends State<HistoryScreen> {
                                 ),
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Padding(
                               padding: const EdgeInsets.fromLTRB(0, 10, 8, 0),
                               child: Card(

@@ -1,8 +1,6 @@
-
 class APIConstant
 {
-
-  static String base_url = 'http://adslay.arjunweb.in/API/';
+  static String base_url = 'http://app.adslay.com/API/';
 
   static String home = base_url + 'HomeAPI/HomeScreenAPI';
 
@@ -17,6 +15,8 @@ class APIConstant
   static String login = base_url + 'AccountAPI/LogonPhno';
   
   static String signup = base_url + 'AccountAPI/Signup';
+
+  static String vendorapi = base_url + 'HomeAPI/InsertVendorsAPI';
 
   static String getPackageDetails = base_url + 'StoresAPI/StorePackagesDetailsAPI';
 
@@ -54,7 +54,8 @@ class APIConstant
 
   static String getAllCategoriesList = base_url + 'StoresAPI/CategoryList';
 
+  static String getOrderImagesListApi = base_url + 'OrderAPI/GetOrderImagesListAPI?OrderDetailId=';
 
-
+  static String getCustomerOrderImagesListAPI = base_url + 'OrderAPI/GetCustomerOrderImagesListAPI?OrderDetailId=';
 
 }

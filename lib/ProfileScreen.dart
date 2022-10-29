@@ -1,16 +1,16 @@
 import 'dart:convert';
-
 import 'package:adslay/CartScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:images_picker/images_picker.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'API.dart';
 import 'BoolProvider.dart';
 import 'Constant/ConstantsColors.dart';
@@ -18,19 +18,14 @@ import 'MainScreen.dart';
 import 'OrderDetailsScreen.dart';
 import 'SearchScreen.dart';
 import 'ThankYouScreen.dart';
-
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
-
 class _ProfileScreenState extends State<ProfileScreen> {
-
   List tabBars = ['Personal Details', 'Order Details'];
   int _currentIndex = 0;
-
   bool isLoading = true;
   bool isLoading1 = true;
   bool isEditProfile = true;
@@ -39,17 +34,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<dynamic> userDetails = [];
   List<dynamic> countriesList = [];
   List<dynamic> statesLists = [];
-
   String email = '';
   String profilePicUrl = '';
   String fullName = '';
   String customerId = '';
   String mobileNumber = '';
   double subTotalValue = 0.0;
-
   late ProgressDialog pr;
-
-
   TextEditingController userNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -63,8 +54,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController stateController = TextEditingController();
   TextEditingController zipcodeController = TextEditingController();
   TextEditingController customerIdController = TextEditingController();
-
-
   Future<void> getData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -76,10 +65,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }catch(e){
       print(e);
     }
-
     _getUserProfileDetails();
-
-    String url ="http://adslay.arjunweb.in/API/HomeAPI/CountriesList" ;
+    String url ="http://app.adslay.com/API/HomeAPI/CountriesList" ;
     print(url);
     var response1 =
     await get(Uri.parse(url), headers: {"Accept": "application/json"});
@@ -91,9 +78,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading=false;
     });
   }
-
   Future<void> _getOrdersHistory() async {
-
     String url1 = APIConstant.getCartHistoryItems;
     print("Get orders history items url is: "+url1);
     Map<String, dynamic> body = {
@@ -156,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print("No records found...");
     } else {
       setState(() {
-
+        stateController.text='Select State';
         fullName = data['objCustomers']['FirstName'] + " " + data['objCustomers']['LastName'];
         userNameController.text = data['objCustomers']['FirstName'];
         lastNameController.text = data['objCustomers']['LastName'];
@@ -169,45 +154,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
         countryController.text = data['objCustomers']['Country'];
         zipcodeController.text = data['objCustomers']['ZipCode'];
         customerIdController.text = data['objCustomers']['CustomerId'].toString();
-
         profilePicUrl = data['objCustomers']['ProfileImage'];
         print("Profile pic url is:"+profilePicUrl);
-
       });
     }
-
     setState(() {
       isLoading=false;
     });
   }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
-
   }
-
   String profilePic='';
   final String uploadUrl = APIConstant.postProfilePicToServer;
-  TextEditingController vendor_image = new TextEditingController();
+  TextEditingController vendor_image = TextEditingController();
+  List<Media>? res111;
 
   _chooseProfilePic() async {
-    var picked = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg'],
+    // var picked = await FilePicker.platform.pickFiles(
+    //   type: FileType.custom,
+    //   allowedExtensions: ['jpg','png'],
+    // );
+
+    res111 = await ImagesPicker.pick(
+      count: 1,
+      pickType: PickType.image,
+      quality: 0.8,
     );
-    if (picked != null) {
+    if (res111 != null) {
       setState(() {
-        profilePic = picked.files.first.path!;
+        profilePic = res111![0].path.toString();
       });
-      print('file path: '+picked.files.first.path!);
+      print('file path: '+res111![0].path.toString());
       await pr.show();
-      var res = await uploadImage( picked.files.first.path, uploadUrl);
+      var res = await uploadImage( res111![0].path.toString(), uploadUrl);
       print("Profile pic uploading to server response: "+ res.toString());
       Map data1 = jsonDecode(res);
-      String fileName = picked.files.first.path!.split('/').last;
+      // String fileName = picked.files.first.path!.split('/').last;
       print('Uploaded file name: '+data1.toString());
 
       vendor_image.text = data1['fileName'].toString();
@@ -243,12 +229,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     print('Upload image to server data response: '+responseString);
     return responseString;
   }
-
-
   _onSelected(int index) {
     setState(() {
       _currentIndex = index;
-
       if (index == 1){
         setState(() {
           isEditProfile = false;
@@ -262,9 +245,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
   }
-
   BoolProvider _boolProvider = BoolProvider();
-
   @override
   Widget build(BuildContext context) {
     _boolProvider  =  Provider.of<BoolProvider>(context,);
@@ -283,8 +264,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         messageTextStyle: const TextStyle(
             color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600)
     );
-
-
     return Scaffold(
       body: GestureDetector(
         onTap: (){
@@ -530,7 +509,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               const Spacer(),
                               Text(
-                                "+91 $mobileNumber",
+                                "+1 $mobileNumber",
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontFamily: "Mont-Light",
@@ -632,11 +611,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-
-
   Widget _previewImage() {
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -654,25 +629,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   profilePicUrl == ''
-                      ?Container(
+                      ? Container(
                       width: 120.0,
                       height: 120.0,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.white,
                         image: DecorationImage(
-                          image: ExactAssetImage('assets/images/userprofile.png'),
+                          image: ExactAssetImage(
+                              'assets/images/userprofile.png'),
                           fit: BoxFit.cover,
                         ),
                       ))
-                      :Container(
+                      : Container(
                     height: 130,
                     width: 130,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(65.0),
                       child: CachedNetworkImage(
                         imageUrl: profilePicUrl,
-                        placeholder: (context, url) => const Center(
+                        placeholder: (context, url) =>
+                        const Center(
                             child: CircularProgressIndicator()),
                         errorWidget: (context, url, error) =>
                             Image.asset("assets/images/userprofile.png"),
@@ -705,11 +682,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ],
     );
-
   }
-
   Widget _personalDetails() {
-
     return GestureDetector(
       onTap: () {
         // _pickImage();
@@ -772,14 +746,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ),
-                  ):SizedBox(width: 0,height: 0,),
-
+                  ):const SizedBox(width: 0,height: 0,),
                 ],
               ),
             ),
-
             Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: TextField(
                 controller: userNameController,
                 readOnly: isEditProfile,
@@ -798,7 +770,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: TextField(
                 controller: lastNameController,
                 readOnly: isEditProfile,
@@ -834,8 +806,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                 ),
               ),
+            ),Padding(
+              padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+              child: TextField(
+                controller: emailController,
+                readOnly: isEditProfile,
+                decoration: const InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  hintText: 'Enter Your Email',
+                ),
+              ),
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -898,7 +886,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 loadstates();
                               });
                             },
-
                             ),
                           ),
                         ),
@@ -909,7 +896,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Flexible(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 10, 15, 0),
+                    padding: const EdgeInsets.fromLTRB(5, 10, 15, 0),
                     child: statesLists == null ? const SizedBox(height: 0, width: double.infinity)
                         : Column(
                       children: [
@@ -925,11 +912,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Colors.white,
                             isExpanded: true,
                             underline: SizedBox(),
-                            hint: const Padding(
-                              padding: EdgeInsets.only(left: 8.0),
+                            hint:  Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
-                                'Select State',
-                                style: TextStyle(
+                                ''+stateController.text,
+                                style: const TextStyle(
                                     fontFamily:
                                     "Lorin",
                                     fontSize: 16.0,
@@ -978,7 +965,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children:   [
                 Flexible(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
+                    padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
                     child: TextField(
                       readOnly: isEditProfile,
 
@@ -992,7 +979,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
-                        hintText: 'Select City',
+                        hintText: 'City',
 
                       ),
                     ),
@@ -1000,12 +987,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Flexible(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(5, 10, 15, 0),
+                    padding: const EdgeInsets.fromLTRB(5, 10, 15, 0),
                     child: TextField(
                       readOnly: isEditProfile,
-
                       controller: zipcodeController,
                       keyboardType: TextInputType.number,
+                      maxLength: 5,
                       decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey),
@@ -1016,16 +1003,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         filled: true,
                         fillColor: Colors.transparent,
                         hintText: 'Enter Zip Code ',
+                        counterText: "",
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-
-
             isEditProfile
-                ?SizedBox(width: 0,height: 0,):Padding(
+                ?const SizedBox(width: 0,height: 0,):Padding(
               padding: const EdgeInsets.only(top: 20),
               child: MaterialButton(
                 onPressed: () {
@@ -1067,12 +1053,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-
   }
-
-
   Future<void> loadstates() async {
-    String url1 = 'http://adslay.arjunweb.in/API/HomeAPI/StatesList';
+    String url1 = 'http://app.adslay.com/API/HomeAPI/StatesList';
     print(url1);
     Map<String, dynamic> body = {
       'CountryId': ''+countryControllerId.text.toString(),
@@ -1086,7 +1069,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: body,
       encoding: encoding,
     );
-
     Map data = jsonDecode(response.body);
     print(data);
     setState(() {
@@ -1095,7 +1077,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isLoading=false;
     });
   }
-
   Widget _ordersHistoryItems() {
     return isLoading1
         ? Shimmer.fromColors(
@@ -1299,7 +1280,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                             child: SizedBox(
@@ -1335,12 +1315,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                             child: SizedBox(
@@ -1381,7 +1360,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                             child: SizedBox(
@@ -1418,12 +1397,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                     ],
                                   ),
-
                                 ],
                               ),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 8, 0),
                             child: Card(
@@ -1463,19 +1441,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
-
   Future<void> updateProfileDetails() async {
     await pr.show();
     //API Calling
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi) {
-
       String url1 = APIConstant.updateProfileDetails;
       print("Update profile details api:" + url1);
-
       Map<String, dynamic> body;
-
       body = {
         'MobileNo': mobileNumber,
         'FirstName': userNameController.text,
@@ -1485,9 +1459,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'City': cityController.text,
         'ZipCode': zipcodeController.text,
         'Address1': addressController.text,
-        'Email':email,
+        'Email':emailController.text,
       };
-
       print('' + body.toString());
       final headers = {'Content-Type': 'application/x-www-form-urlencoded'};
       final encoding = Encoding.getByName('utf-8');
@@ -1501,10 +1474,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print("Update profile data response:" + data1.toString());
       await pr.hide();
       String msg = data1["msg"];
-
       if (msg == "Success" || msg == "Updated" || msg == "success" ) {
         print("Profile details updated successfully.");
-
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('email', ""+emailController.text);
         setState(() {
           isEditProfile = true;
           isLoading = true;
@@ -1518,22 +1491,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
       print("Check internet connection..!");
     }
   }
-
   Future<void> verifyFormDetails() async {
-    if (userNameController.text == null || userNameController.text == '') {
-      print("Please enter first name");
+    if (userNameController.text == '') {
+      Fluttertoast.showToast(
+          msg: "Please enter first name",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return;
-    } else if (lastNameController.text == null || lastNameController.text == '') {
-      print("Please enter last name");
+    } else if ( lastNameController.text == '') {
+      Fluttertoast.showToast(
+          msg: "Please enter last name",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return;
-    } else if (countryController.text == null || countryController.text == '') {
-      print("Please select country");
+    } else if (countryController.text == '') {
+      Fluttertoast.showToast(
+          msg: "Please select country",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return;
-    } else if (stateController.text == null || stateController.text == '') {
-      print("Please select state.");
+    } else if (stateController.text == '') {
+      Fluttertoast.showToast(
+          msg: "Please select state",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return;
-    } else if (cityController.text == null || cityController.text == '') {
-      print("Please enter city.");
+    } else if (cityController.text == '') {
+      Fluttertoast.showToast(
+          msg: "Please enter city",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
       return;
     } else {
       print('updating profile details..');
@@ -1541,6 +1553,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return;
     }
   }
-
-
 }

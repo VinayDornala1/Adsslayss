@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "815501654326",
-    "firebase_url": "https://adslay-9e455-default-rtdb.firebaseio.com",
-    "project_id": "adslay-9e455",
-    "storage_bucket": "adslay-9e455.appspot.com"
+    "project_number": "481446554529",
+    "project_id": "adslay1-ea00e",
+    "storage_bucket": "adslay1-ea00e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:815501654326:android:2e28ed774d88b53ae61b97",
+        "mobilesdk_app_id": "1:481446554529:android:5462e9d4659a088fe1b9e0",
         "android_client_info": {
-          "package_name": "com.adslay.adslay"
+          "package_name": "com.adslay.adslaytest"
         }
       },
       "oauth_client": [
         {
-          "client_id": "815501654326-1384uemr8u04fhtsqh48t04cs1n1dnhd.apps.googleusercontent.com",
+          "client_id": "481446554529-6uguvird4ric72losg3glapa76vj8pv3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKcNVNY54NG-uQfxObp_CY_M7E27e1jCM"
+          "current_key": "AIzaSyDSgjZYRzmfsO6kYA_vhpIa-j6_FowWFbs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "815501654326-1384uemr8u04fhtsqh48t04cs1n1dnhd.apps.googleusercontent.com",
+              "client_id": "481446554529-6uguvird4ric72losg3glapa76vj8pv3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:adslay/stripe/blocs/pay/pay_bloc.dart';
 import 'package:adslay/stripe/services/stripe_service.dart';
 import 'package:flutter/material.dart';
@@ -9,29 +8,20 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'API.dart';
 import 'CartScreen.dart';
 import 'Constant/ConstantsColors.dart';
 import 'MainScreen.dart';
 import 'SearchScreen.dart';
 import 'ThankYouScreen.dart';
-
-
 class BillingScreen extends StatefulWidget {
-
   var total;
   var orderid;
-
   BillingScreen({this.total,this.orderid});
-
   @override
   State<BillingScreen> createState() => _BillingScreenState();
 }
-
 class _BillingScreenState extends State<BillingScreen> {
-
-
   bool isLoading = true;
   bool isCheckoutAvailable = false;
   List<dynamic> ordersHistoryList = [];
@@ -41,7 +31,6 @@ class _BillingScreenState extends State<BillingScreen> {
   String username = '';
   int userid = 0;
   double subTotalValue = 0.0;
-
   late ProgressDialog pr;
   Map<String, dynamic>? paymentIntentData;
   TextEditingController userNameController = TextEditingController();
@@ -58,7 +47,6 @@ class _BillingScreenState extends State<BillingScreen> {
   List<dynamic> CountriesList = [];
   List<dynamic> statelists = [];
   String transactionId = '';
-
   Future<void> getData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -85,17 +73,13 @@ class _BillingScreenState extends State<BillingScreen> {
       body: body,
       encoding: encoding,
     );
-
     Map data = jsonDecode(response.body);
     //print(data);
     String msg = data['msg'];
     print(msg);
-
     if (msg=='No Records Found') {
-
     } else {
       setState(() {
-
         nameController.text = data['objCustomers']['FirstName'] + " " + data['objCustomers']['LastName'];
         emailController.text = data['objCustomers']['Email'];
         mobileNumberController.text = data['objCustomers']['MobileNo'];
@@ -105,12 +89,9 @@ class _BillingScreenState extends State<BillingScreen> {
         cityController.text = data['objCustomers']['City'];
         stateController.text = data['objCustomers']['State'];
         countryController.text = data['objCustomers']['Country'];
-
       });
     }
-
-
-    String url ="http://adslay.arjunweb.in/API/HomeAPI/CountriesList" ;
+    String url ="http://app.adslay.com/API/HomeAPI/CountriesList" ;
     print(url);
     var response1 =
     await get(Uri.parse(url), headers: {"Accept": "application/json"});
@@ -120,9 +101,8 @@ class _BillingScreenState extends State<BillingScreen> {
       isLoading=false;
     });
   }
-
   Future<void> loadstates() async {
-    String url1 = 'http://adslay.arjunweb.in/API/HomeAPI/StatesList';
+    String url1 = 'http://app.adslay.com/API/HomeAPI/StatesList';
     print(url1);
     Map<String, dynamic> body = {
       'CountryId': ''+countryControllerId.text.toString(),
@@ -136,7 +116,6 @@ class _BillingScreenState extends State<BillingScreen> {
       body: body,
       encoding: encoding,
     );
-
     Map data = jsonDecode(response.body);
     print(data);
     setState(() {
@@ -145,18 +124,13 @@ class _BillingScreenState extends State<BillingScreen> {
       isLoading=false;
     });
   }
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
-
   }
-
   // final stripeService = StripeService();
-
   @override
   Widget build(BuildContext context) {
     final payBloc = BlocProvider.of<PayBloc>(context);
@@ -231,7 +205,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                       color: Colors.transparent,
                                       width: 43,
                                       height: 43,
-
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(7, 10, 5, 0),
@@ -323,7 +296,7 @@ class _BillingScreenState extends State<BillingScreen> {
                               children:  [
                                 Text(
                                   ""+username,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "Mont-SemiBold",
                                     fontSize: 17,
                                   ),
@@ -337,13 +310,10 @@ class _BillingScreenState extends State<BillingScreen> {
                                       fontSize: 14,
                                       color: ConstantColors.appTheme,
                                     ),
-
                                   ),
                                 ),
-
                               ],
                             ),
-
                           ],
                         ),
                         Padding(
@@ -371,7 +341,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                       ),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(15, 10, 15, 0),
                                     child: TextField(
@@ -386,7 +355,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                         filled: true,
                                         fillColor: Colors.transparent,
                                         hintText: 'Enter Your Name',
-
                                       ),
                                     ),
                                   ),
@@ -432,7 +400,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                                   Colors.white,
                                                   isExpanded: true,
                                                   underline: SizedBox(),
-                                                  hint: countryController.text==''?Text(
+                                                  hint: countryController.text==''?const Text(
                                                     'Select Country',
                                                     style: TextStyle(
                                                         fontFamily:
@@ -445,7 +413,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                                             0xFF141E28)),
                                                   ):Text(
                                                     ''+countryController.text,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontFamily:
                                                         "Lorin",
                                                         fontWeight:
@@ -491,7 +459,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                       ),
                                       Flexible(
                                         child: Padding(
-                                          padding: EdgeInsets.fromLTRB(5, 10, 15, 0),
+                                          padding: const EdgeInsets.fromLTRB(5, 10, 15, 0),
                                           child: statelists == null ? const SizedBox(height: 0, width: double.infinity)
                                               : Column(
                                             children: [
@@ -507,7 +475,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                                   Colors.white,
                                                   isExpanded: true,
                                                   underline: SizedBox(),
-                                                  hint: stateController.text==''?Text(
+                                                  hint: stateController.text==''?const Text(
                                                     'Select State',
                                                     style: TextStyle(
                                                         fontFamily:
@@ -520,7 +488,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                                             0xFF141E28)),
                                                   ):Text(
                                                     ''+stateController.text,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontFamily:
                                                         "Lorin",
                                                         fontWeight:
@@ -572,7 +540,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                     children:   [
                                       Flexible(
                                         child: Padding(
-                                          padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
+                                          padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
                                           child: TextField(
                                             controller: cityController,
                                             decoration: const InputDecoration(
@@ -596,6 +564,7 @@ class _BillingScreenState extends State<BillingScreen> {
                                           child: TextField(
                                             controller: zipcodeController,
                                             keyboardType: TextInputType.number,
+                                            maxLength: 5,
                                             decoration: const InputDecoration(
                                               enabledBorder: UnderlineInputBorder(
                                                 borderSide: BorderSide(color: Colors.grey),
@@ -606,6 +575,8 @@ class _BillingScreenState extends State<BillingScreen> {
                                               filled: true,
                                               fillColor: Colors.transparent,
                                               hintText: 'Enter Zip Code ',
+                                              counterText: "",
+
                                             ),
                                           ),
                                         ),
@@ -632,7 +603,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                             fontFamily: "Mont-Regular",
                                             color: ConstantColors.appTheme,
                                           ),
-
                                         ),
                                         Text(
                                           "\$"+widget.total.toString(),
@@ -641,12 +611,10 @@ class _BillingScreenState extends State<BillingScreen> {
                                             fontFamily: "Mont-Regular",
                                             color: Colors.black,
                                           ),
-
                                         ),
                                       ],
                                     ),
                                   ),
-
                                   const Padding(
                                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                                     child: Text(
@@ -656,7 +624,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                         fontFamily: "Mont-Light",
                                         color: Colors.black,
                                       ),
-
                                     ),
                                   ),
                                   Center(
@@ -755,8 +722,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                             print("ii="+i.toString());
                                             pr.show();
                                             await makePayment(i.toString(), "USD");
-
-
                                           }
                                         },
                                         textColor: Colors.white,
@@ -789,7 +754,6 @@ class _BillingScreenState extends State<BillingScreen> {
                                       ),
                                     ),
                                   ),
-
                                 ],
                               )
                           ),
@@ -803,7 +767,6 @@ class _BillingScreenState extends State<BillingScreen> {
       ),
     );
   }
-
   Future<void> makePayment(String amount, String currencyCode)async{
     try {
       paymentIntentData = await createPaymentIntent(amount, currencyCode); //json.decode(response.body);
@@ -813,8 +776,8 @@ class _BillingScreenState extends State<BillingScreen> {
               paymentIntentClientSecret:
               paymentIntentData!['client_secret'],
               //How you can add Apple And Google Pay
-              applePay: true,
-              googlePay: true,
+              googlePay: false,
+              applePay: false,
               testEnv: true,
               style: ThemeMode.dark,
               merchantCountryCode: 'US',
@@ -826,7 +789,6 @@ class _BillingScreenState extends State<BillingScreen> {
       print("Exception OnClick " + e.toString());
     }
   }
-
   displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet(
@@ -845,21 +807,15 @@ class _BillingScreenState extends State<BillingScreen> {
         setState(() {
           paymentIntentData = null;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("paid successfully")));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("paid successfully")));
       }).onError((error, stackTrace){
         pr.hide();
-
         completeBooking("Pending", 'N/A', widget.total.toString());
         print('Exception/DISPLAYPAYMENTSHEET==> $error $stackTrace');
-
       });
-
-
     } on StripeException catch (e) {
       pr.hide();
-
       completeBooking("Pending", 'N/A', widget.total.toString());
-
       print('Exception/DISPLAYPAYMENTSHEET==> $e');
       showDialog(
           context: context,
@@ -870,7 +826,6 @@ class _BillingScreenState extends State<BillingScreen> {
       print('$e');
     }
   }
-
   createPaymentIntent(String amount, String currency) async {
     try{
       Map<String, dynamic>body = {
@@ -878,7 +833,6 @@ class _BillingScreenState extends State<BillingScreen> {
         'currency': currency,
         'payment_method_types[]': 'card'
       };
-
       var response = await post(Uri.parse('https://api.stripe.com/v1/payment_intents'),
           body: body,
           headers: {
@@ -888,23 +842,17 @@ class _BillingScreenState extends State<BillingScreen> {
       );
       print('Create Intent reponse ===> ${response.body.toString()}');
       return jsonDecode(response.body);
-
     }catch(e){
       print("Exception"+e.toString());
     }
   }
-
   calculateMount(String amount){
     final price = int.parse(amount)*100;
     return price.toString();
   }
-
-
-
-
   Future<void> completeBooking(String status, String transactionId, String amountPaid) async {
     pr.show();
-    String url1 = APIConstant.completeBooking;//'http://adslay.arjunweb.in/API/OrderAPI/OrderInsertAPI';
+    String url1 = APIConstant.completeBooking;//'http://app.adslay.com/API/OrderAPI/OrderInsertAPI';
     print('Upload billing details url: '+url1);
     Map<String, dynamic> body = {
       'MobileNo': ''+mobileNumber,//mobileNumber.toString(),
@@ -943,8 +891,6 @@ class _BillingScreenState extends State<BillingScreen> {
       isLoading = false;
     });
   }
-
-
   Future<void> uploadPaymentDetails(String status, String transactionId, String amountPaid, String orderId) async {
     pr.show();
     String url1 = APIConstant.uploadPaymentDetails;
@@ -985,5 +931,4 @@ class _BillingScreenState extends State<BillingScreen> {
       isLoading = false;
     });
   }
-
 }

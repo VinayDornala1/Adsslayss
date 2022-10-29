@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 import 'CartScreen.dart';
@@ -153,72 +154,79 @@ class _HowItWorksState extends State<HowItWorks> {
                           ),
                         ),
                         Divider(height: 2,thickness: 5,color: ConstantColors.lightGrey,),
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: ConstantColors.lightGrey,
-                                      blurRadius: 10.0,
+                        GestureDetector(
+                          onTap: (){
+                            Share.share(
+                                'Download Adslay app from \n play store  \nhttps://play.google.com/store/apps/details?id=com.adslay.adslay',
+                                subject: 'Adslay');
+                          },
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: ConstantColors.lightGrey,
+                                        blurRadius: 10.0,
+                                      ),
+                                    ]
+                                ),
+                                height: 100,
+                                child: Stack(
+                                  children: [
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width * 0.91,
+                                      child: Image.asset("assets/images/sharebg.png"),
                                     ),
-                                  ]
-                              ),
-                              height: 100,
-                              child: Stack(
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.91,
-                                    child: Image.asset("assets/images/sharebg.png"),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(width: 10,),
-                                      Image.asset(
-                                        "assets/images/share.png",
-                                        width: 60,
-                                        height: 60,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          GradientText(
-                                              "Share With Friends",
-                                              style: const TextStyle(
-                                                  fontFamily: "Mont-Bold",
-                                                  fontSize: 20
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(width: 10,),
+                                        Image.asset(
+                                          "assets/images/share.png",
+                                          width: 60,
+                                          height: 60,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            GradientText(
+                                                "Share With Friends",
+                                                style: const TextStyle(
+                                                    fontFamily: "Mont-Bold",
+                                                    fontSize: 20
+                                                ),
+                                                colors: const [
+                                                  Colors.red,
+                                                  Colors.orange,
+                                                ]
+                                            ),
+                                            const Text(
+                                              "Help your friends to share the app",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: "Mont-Regular"
                                               ),
-                                              colors: const [
-                                                Colors.red,
-                                                Colors.orange,
-                                              ]
-                                          ),
-                                          const Text(
-                                            "Help your friends to share the app",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontFamily: "Mont-Regular"
                                             ),
-                                          ),
-                                          const Text(
-                                            "Make ads to improve business       ",
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontFamily: "Mont-Regular"
+                                            const Text(
+                                              "Make ads to improve business       ",
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                  fontSize: 13,
+                                                  fontFamily: "Mont-Regular"
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(width: 10,),
-                                    ],
-                                  )
-                                ],
+                                          ],
+                                        ),
+                                        SizedBox(width: 10,),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),

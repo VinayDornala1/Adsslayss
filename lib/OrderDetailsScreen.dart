@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:adslay/Constant/ConstantsColors.dart';
+import 'package:adslay/ImagesScreen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -11,6 +12,7 @@ import 'API.dart';
 import 'BillingScreen.dart';
 import 'CartScreen.dart';
 import 'MainScreen.dart';
+import 'PhotoPhoto.dart';
 
 
 class OrderDetailsScreen extends StatefulWidget {
@@ -51,6 +53,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   String bookImageurl = '';
   String paymentStatus = '';
   List<dynamic> OrderDetailsList = [];
+  List<dynamic> OrderImageList = [];
 
   Future<void> getData() async {
     try {
@@ -110,6 +113,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       }
     });
 
+
+
+
+    String url12 = APIConstant.getOrderImagesListApi+widget.cartOrderId.toString();
+    print("Get order image list :" +url1);
+    final response22 = await get(
+      Uri.parse(url12),
+    );
+    print(''+response22.body);
+    OrderImageList = jsonDecode(response22.body)['OrderImageList'];
+
     setState(() {
       isLoading = false;
     });
@@ -130,6 +144,40 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: MaterialButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>  VideoCounselling(cartOrderId: widget.cartOrderId.toString())));
+
+        },
+        textColor: Colors.white,
+        padding: const EdgeInsets.all(0.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 45,
+          decoration:  const BoxDecoration(
+              gradient:  LinearGradient(
+                colors: [
+                  Color(0xff3962cb),
+                  Color(0xff3962cb),
+                ],
+              )
+          ),
+          //padding: const EdgeInsets.all(10.0),
+          child: const Center(
+            child: Text(
+              "View Images",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Color(0xFFFFFFFF),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Lorin"
+              ),
+            ),
+          ),
+        ),
+      ),
+
       body: Stack(
         children: [
           SafeArea(
@@ -167,12 +215,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       ),
                     ],
                   ),
-
-                  const Padding(
-                    padding: EdgeInsets.all(8.0),
+                   Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Order Details",
-                      style: TextStyle(
+                      "Order Details - OR-AD"+widget.cartOrderId.toString(),
+                      style: const TextStyle(
                           fontSize: 20,
                           fontFamily: "Mont-SemiBold"
                       ),
@@ -436,7 +483,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                                         Padding(
                                                           padding: const EdgeInsets.fromLTRB(0, 5, 2, 0),
                                                           child: Text(
-                                                            "\$ "+ paidAmount,// + cartList[index]["ActualPrice"].toString(),
+                                                            "\$ "+ selectPlan,// + cartList[index]["ActualPrice"].toString(),
                                                             textAlign: TextAlign.start,
                                                             style: const TextStyle(
                                                                 fontSize: 14,
@@ -747,7 +794,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                                                 fontWeight: FontWeight.w400),),
                                                         ),
                                                        Padding(
-                                                          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                                          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                                           child: Text(
                                                             "" + storeName,
                                                             textAlign: TextAlign.start,
@@ -896,7 +943,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               paymentStatus=='Pending'||paymentStatus=='pending'?Center(
                                 child: Container(
                                   margin:
-                                  EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 5.0),
+                                  const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 5.0),
                                   child: MaterialButton(
                                     onPressed: () {
                                       //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> BottomNavigationMenu()));
@@ -933,11 +980,54 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                     ),
                                   ),
                                 ),
-                              ):SizedBox(width: 0,height: 0,),
+                              ):const SizedBox(width: 0,height: 0,),
 
-                              const SizedBox(
-                                height: 15,
-                              ),
+
+
+
+                        //       OrderImageList.length>0?CustomScrollView(
+                        // scrollDirection: Axis.vertical,
+                        // primary: false,
+                        // shrinkWrap: true,
+                        // slivers: <Widget>[ SliverPadding(
+                        //           padding: const EdgeInsets.all(10),
+                        //           sliver: SliverGrid(
+                        //             gridDelegate:
+                        //             const SliverGridDelegateWithFixedCrossAxisCount(
+                        //               childAspectRatio: 0.75,
+                        //               crossAxisSpacing: 20,
+                        //               mainAxisSpacing: 20,
+                        //               crossAxisCount: 2,
+                        //             ),
+                        //             delegate: SliverChildBuilderDelegate(
+                        //                   (BuildContext context, int index) {
+                        //                 return GestureDetector(
+                        //                   onTap: () {
+                        //                     Navigator.push(context, MaterialPageRoute(builder: (context)=>ImagesScreen(cartOrderId: widget.cartOrderId.toString(),)));
+                        //
+                        //                   },
+                        //                   child: Container(
+                        //                     //  height: 200,
+                        //                     width: 155,
+                        //                     decoration: BoxDecoration(
+                        //                       image: DecorationImage(
+                        //                         image: NetworkImage(OrderImageList[index]['ImageUrl'].toString(),),
+                        //                         fit: BoxFit.cover,
+                        //                       ),
+                        //                       borderRadius: BorderRadius.circular(10.0),
+                        //                     ),
+                        //                   ),
+                        //                 );
+                        //               },
+                        //               childCount: OrderImageList.length,
+                        //             ),
+                        //           ),
+                        //         ),
+                        // ]):const SizedBox(width: 0,height: 0,),
+                        //
+                        //       OrderImageList.length>0?const SizedBox(
+                        //         height: 15,
+                        //       ):const SizedBox(width: 0,height: 0,),
                             ]
                         );
                       },

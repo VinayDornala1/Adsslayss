@@ -194,12 +194,10 @@ class _StoresScreenState extends State<StoresScreen> {
               Expanded(
                 child: _showStoresList(),
               ),
-
             ]),
       ),
     );
   }
-
   Widget _showStoresList() {
     return isLoading
         ? Shimmer.fromColors(
@@ -295,7 +293,6 @@ class _StoresScreenState extends State<StoresScreen> {
                 onTap: (){
                   print("Selected store id is:"+storesList[index]["StoreId"].toString());
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> StoreDetails(storeId: storesList[index]["StoreId"].toString())));
-
                   // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChoosePlan(storeId: storesList[index]["StoreId"].toString())));
                 },
                 child: Padding(
@@ -337,7 +334,7 @@ class _StoresScreenState extends State<StoresScreen> {
                           '' + storesList[index]["StoreName"] + ", " + storesList[index]["City"],
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
-                          maxLines: 2,
+                          maxLines: 1,
                           style: const TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal),
@@ -346,7 +343,7 @@ class _StoresScreenState extends State<StoresScreen> {
                           '' + storesList[index]["State"] + ", " + storesList[index]["Country"],
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
-                          maxLines: 2,
+                          maxLines: 1,
                           style: const TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal),
@@ -362,8 +359,5 @@ class _StoresScreenState extends State<StoresScreen> {
         )
       ],
     );
-
   }
-
-
 }

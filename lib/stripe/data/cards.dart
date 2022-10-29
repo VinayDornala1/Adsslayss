@@ -1,7 +1,5 @@
 // import 'package:stripe_app/models/credit_card_custom.dart';
-
 import '../models/credit_card_custom.dart';
-
 final List<CreditCardCustom> cards = <CreditCardCustom>[
     CreditCardCustom(
       cardNumberHidden: '4242',
@@ -27,5 +25,4 @@ final List<CreditCardCustom> cards = <CreditCardCustom>[
       expiracyDate: '01/25',
       cardHolderName: 'Eduardo Rios'
     ),
-    
   ];

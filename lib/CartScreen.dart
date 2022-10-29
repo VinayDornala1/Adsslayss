@@ -16,6 +16,7 @@ import 'ChoosePlan.dart';
 import 'LoginScreen.dart';
 import 'MainScreen.dart';
 import 'SearchScreen.dart';
+import 'bottom_bar.dart';
 
 
 class CartScreen extends StatefulWidget {
@@ -139,7 +140,12 @@ class _CartScreenState extends State<CartScreen> {
                             children: [
                               GestureDetector(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder:
+                                              (BuildContext context) => BottomNavigationMenu()),
+                                      ModalRoute.withName('/'));
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 10),
@@ -506,7 +512,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 5, 8),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 5, 8),
                   child: Text(
                     "" + cartList[index]["StoreName"] +", "+ cartList[index]["City"] +", "+ cartList[index]["State"],
                     maxLines: 2,
@@ -591,7 +597,7 @@ class _CartScreenState extends State<CartScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
                                           "" + cartList[index]["ScreenSize"].toString(),
                                           textAlign: TextAlign.center,
@@ -733,11 +739,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   late ProgressDialog pr;
-
-
-
   _showDeleteAlertPopUp(String cartDetailId) {
-
     showDialog(
         context: context,
         builder: (context) {
@@ -753,7 +755,6 @@ class _CartScreenState extends State<CartScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-
                             const SizedBox(
                               height: 15,
                             ),
@@ -771,7 +772,6 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                             ),
-
                             Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -945,10 +945,7 @@ class _CartScreenState extends State<CartScreen> {
       }
     });
   }
-
-
   _showUploadFilesPopUp() {
-
     showDialog(
         context: context,
         builder: (context) {
@@ -968,8 +965,8 @@ class _CartScreenState extends State<CartScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                               SizedBox(width: 15,),
-                               Spacer(),
+                               const SizedBox(width: 15,),
+                               const Spacer(),
                               Text(
                                 '   AD FILES REQUIRED',
                                 textAlign: TextAlign.center,
@@ -979,7 +976,7 @@ class _CartScreenState extends State<CartScreen> {
                                   fontSize: 16,
                                 ),
                               ),
-                               Spacer(),
+                               const Spacer(),
                               GestureDetector(
                                 onTap: (){
                                   Navigator.pop(context);
@@ -992,7 +989,7 @@ class _CartScreenState extends State<CartScreen> {
                                   width: 25,
                                 ),
                               ),
-                               SizedBox(width: 15,)
+                               const SizedBox(width: 15,)
                             ],
                           ),
                         ),
@@ -1029,7 +1026,7 @@ class _CartScreenState extends State<CartScreen> {
 
                                     Center(
                                       child: Padding(
-                                        padding:  EdgeInsets.fromLTRB(0, 10, 0, 20),
+                                        padding:  const EdgeInsets.fromLTRB(0, 10, 0, 20),
                                         child: MaterialButton(
                                           onPressed: () {
                                             Navigator.push(context, MaterialPageRoute(builder: (context)=>UploadFiles(cartDetailId: noFilesUploadedItemsList[index]["CartDetailId"])));

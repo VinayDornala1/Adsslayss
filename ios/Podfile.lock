@@ -41,9 +41,6 @@ PODS:
     - FirebaseAuth (~> 8.14.0)
   - Firebase/CoreOnly (8.14.0):
     - FirebaseCore (= 8.14.0)
-  - Firebase/DynamicLinks (8.14.0):
-    - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 8.14.0)
   - Firebase/Messaging (8.14.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 8.14.0)
@@ -54,11 +51,7 @@ PODS:
   - firebase_core (1.14.1):
     - Firebase/CoreOnly (= 8.14.0)
     - Flutter
-  - firebase_dynamic_links (4.1.3):
-    - Firebase/DynamicLinks (= 8.14.0)
-    - firebase_core
-    - Flutter
-  - firebase_messaging (11.2.13):
+  - firebase_messaging (11.2.15):
     - Firebase/Messaging (= 8.14.0)
     - firebase_core
     - Flutter
@@ -76,8 +69,6 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - GoogleUtilities/Logger (~> 7.7)
     - nanopb (~> 2.30908.0)
-  - FirebaseDynamicLinks (8.14.0):
-    - FirebaseCore (~> 8.0)
   - FirebaseInstallations (8.15.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/Environment (~> 7.7)
@@ -93,15 +84,17 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.7)
     - nanopb (~> 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_native_image (0.0.1):
+    - Flutter
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - GoogleDataTransport (9.1.2):
-    - GoogleUtilities/Environment (~> 7.2)
-    - nanopb (~> 2.30908.0)
+  - GoogleDataTransport (9.2.0):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
@@ -121,6 +114,9 @@ PODS:
   - GoogleUtilities/UserDefaults (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (1.7.2)
+  - images_picker (0.0.1):
+    - Flutter
+    - ZLPhotoBrowser (= 4.2.5)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -137,32 +133,59 @@ PODS:
   - SDWebImage (5.12.5):
     - SDWebImage/Core (= 5.12.5)
   - SDWebImage/Core (5.12.5)
+  - share_plus (0.0.1):
+    - Flutter
   - shared_preferences_ios (0.0.1):
     - Flutter
   - sqflite (0.0.2):
     - Flutter
     - FMDB (>= 2.7.5)
-  - Stripe (19.4.1)
-  - stripe_payment (1.0.0):
+  - Stripe (22.0.0):
+    - Stripe/Stripe3DS2 (= 22.0.0)
+    - StripeApplePay (= 22.0.0)
+    - StripeCore (= 22.0.0)
+    - StripeUICore (= 22.0.0)
+  - Stripe/Stripe3DS2 (22.0.0):
+    - StripeApplePay (= 22.0.0)
+    - StripeCore (= 22.0.0)
+    - StripeUICore (= 22.0.0)
+  - stripe_ios (0.0.1):
     - Flutter
-    - Stripe (~> 19.4.0)
+    - Stripe (~> 22.0.0)
+    - StripeConnections (~> 22.0.0)
+  - StripeApplePay (22.0.0):
+    - StripeCore (= 22.0.0)
+  - StripeConnections (22.0.0):
+    - StripeCore (= 22.0.0)
+    - StripeUICore (= 22.0.0)
+  - StripeCore (22.0.0)
+  - StripeUICore (22.0.0):
+    - StripeCore (= 22.0.0)
   - SwiftyGif (5.4.3)
   - Toast (4.0.0)
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - ZLPhotoBrowser (4.2.5):
+    - ZLPhotoBrowser/Core (= 4.2.5)
+  - ZLPhotoBrowser/Core (4.2.5)
 
 DEPENDENCIES:
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+  - flutter_native_image (from `.symlinks/plugins/flutter_native_image/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - images_picker (from `.symlinks/plugins/images_picker/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
+  - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
-  - stripe_payment (from `.symlinks/plugins/stripe_payment/ios`)
+  - stripe_ios (from `.symlinks/plugins/stripe_ios/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -172,7 +195,6 @@ SPEC REPOS:
     - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreDiagnostics
-    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseMessaging
     - FMDB
@@ -185,8 +207,13 @@ SPEC REPOS:
     - ReachabilitySwift
     - SDWebImage
     - Stripe
+    - StripeApplePay
+    - StripeConnections
+    - StripeCore
+    - StripeUICore
     - SwiftyGif
     - Toast
+    - ZLPhotoBrowser
 
 EXTERNAL SOURCES:
   connectivity_plus:
@@ -197,24 +224,30 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_dynamic_links:
-    :path: ".symlinks/plugins/firebase_dynamic_links/ios"
   firebase_messaging:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
+  flutter_native_image:
+    :path: ".symlinks/plugins/flutter_native_image/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  images_picker:
+    :path: ".symlinks/plugins/images_picker/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
+  share_plus:
+    :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_ios:
     :path: ".symlinks/plugins/shared_preferences_ios/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/ios"
-  stripe_payment:
-    :path: ".symlinks/plugins/stripe_payment/ios"
+  stripe_ios:
+    :path: ".symlinks/plugins/stripe_ios/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
@@ -224,20 +257,20 @@ SPEC CHECKSUMS:
   Firebase: 7e8fe528c161b9271d365217a74c16aaf834578e
   firebase_auth: db3557d178b86a0d2ccdb7a878a1d1c2fe70de4e
   firebase_core: cdef02fcf55872191eb0568d4c31a7a700e38582
-  firebase_dynamic_links: 51a6db3c87f1d788cdb94a65db1229f77ae2f6f6
-  firebase_messaging: 57f89047ec0084a4049e253ce84cea39becadad4
+  firebase_messaging: 81bb3a420c2a01da633808a3cb23d074f97009d8
   FirebaseAuth: c5fde343630090253d3af7e2d35697b414b40202
   FirebaseCore: b84a44ee7ba999e0f9f76d198a9c7f60a797b848
   FirebaseCoreDiagnostics: 92e07a649aeb66352b319d43bdd2ee3942af84cb
-  FirebaseDynamicLinks: 5fe9d2405cc93a58fead4af4ef4c81a466516ba0
   FirebaseInstallations: 40bd9054049b2eae9a2c38ef1c3dd213df3605cd
   FirebaseMessaging: 5ebc42d281567658a2cb72b9ef3506e4a1a1a6e4
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_native_image: 9c0b7451838484458e5b0fae007b86a4c2d4bdfe
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  GoogleDataTransport: 629c20a4d363167143f30ea78320d5a7eb8bd940
+  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
+  images_picker: fa9364e3a7d3083c49f865fcfb2b9e7cdc574d3a
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   onesignal_flutter: a89207b9d7e97cc9d7d12bcfb4a25f62aedc445b
   OneSignalXCFramework: fe027712118f2862ab193b72270487f11450ea63
@@ -245,12 +278,19 @@ SPEC CHECKSUMS:
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
+  share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
-  Stripe: 5914399ac5878056b985d56b409cb4bb1e7fc7e8
-  stripe_payment: 1cbe9c339c21b5ecf01035e80eea351067c67c56
+  Stripe: ee32e594fa4dee4bdf2a8a3039f7fb07a21075dc
+  stripe_ios: 4ae5942d4f2f383c2be5c187e6e4e4f31e29c0a5
+  StripeApplePay: e09964f3e2c6b318e53a05c12f3cb7efc592484d
+  StripeConnections: d3068bf688679a51932abb94d956d8a73c213bd7
+  StripeCore: 689b9605ccb78e507f59ddc5e677615e0af16583
+  StripeUICore: f5fe5ad283e132b40077b5eb85b625ebf7de034a
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
+  url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
+  ZLPhotoBrowser: 4bfab86b851042e18d7f413284472aa68759626a
 
 PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
 

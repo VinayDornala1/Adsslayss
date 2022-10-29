@@ -28,6 +28,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
 
   late List<dynamic> categoriesList;
   bool isLoading = true;
+  bool isLoading1 = true;
 
   String Email='';
   String MobileNo='';
@@ -97,7 +98,115 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
             children: [
               Stack(
                 children: <Widget>[
-                  Row(
+                  isLoading1
+                      ? Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.asset(
+                            "assets/images/back.png",
+                            width: 45,
+                            height: 65,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.only(top: 0, right: 30,left: 10),
+                          child: Image.asset("assets/images/home-logo.png",width: 130,)
+                      ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> const CartScreen()));
+                        },
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                21.5), // if you need this
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                color: Colors.transparent,
+                                width: 43,
+                                height: 43,
+
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(7, 10, 5, 0),
+                                child: Image.asset(
+                                  "assets/images/cart.png",
+                                  width: 28,
+                                  height: 28,
+                                ),
+                              ),
+                              MainScreen.cartItemsCount > 0 ?Positioned(
+                                right: 0,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 10.0),
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration:  BoxDecoration(
+                                      color: ConstantColors.appTheme,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    //color: Colors.red,
+                                    child:  Center(
+                                      child: Text(
+                                        ""+MainScreen.cartItemsCount.toString(),
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontFamily: "Mont-Regular"
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ):const SizedBox(height: 1,width: 1,)
+                            ],
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
+                        },
+                        child: Card(
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                21.5), // if you need this
+                          ),
+                          child: Stack(
+                            children: [
+                              Container(
+                                color: Colors.transparent,
+                                width: 43,
+                                height: 43,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    10, 10, 5, 0),
+                                child: Image.asset(
+                                  "assets/images/search.png",
+                                  width: 25,
+                                  height: 25,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                      : Row(
                     children: [
                       GestureDetector(
                         onTap: () {
@@ -313,7 +422,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
       primary: false,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1.25,
+        childAspectRatio: 1.20,
       ),
       itemBuilder: (context, index) {
         return Row(
@@ -322,13 +431,15 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
             Expanded(
               child: GestureDetector(
                 onTap: (){
-
                   String categoryName = categoriesList[index]["CategoryName"].toString();
-
                   if (categoryName == "All" || categoryName == "all") {
                     //Navigator.push(context, MaterialPageRoute(builder: (context)=>StoresList(categoryId: categoriesList[index]["CategoryId"].toString(),storeCategory: categoriesList[index]["CategoryName"])));
                   }else{
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StoresList(categoryId: categoriesList[index]["CategoryId"].toString(),storeCategory: categoriesList[index]["CategoryName"])));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>StoresList(categoryId: categoriesList[index]["CategoryId"].toString(),storeCategory: categoriesList[index]["CategoryName"]))).then((value) => {
+                      setState(() {
+                        isLoading1 = true;
+                      }),
+                    });
                   }
                 },
                 child: Padding(
@@ -360,6 +471,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
                                       children: [
                                         SizedBox(
                                           height: 140,
+                                          width: 170,
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(5),
                                             child: Image(
@@ -371,6 +483,7 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
                                         ),
                                         SizedBox(
                                           height: 140,
+                                          width: 170,
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(5),
                                             child: Image.asset(
@@ -424,7 +537,4 @@ class _AllCategoriesScreenState extends State<AllCategoriesScreen> {
       },
     );
   }
-
-
-
 }

@@ -15,6 +15,8 @@ import 'MainScreen.dart';
 import 'SearchScreen.dart';
 import 'StoreDetails.dart';
 import 'UploadFiles.dart';
+import 'animated_custom_dialog.dart';
+import 'guest_dialog.dart';
 
 class ChoosePlan extends StatefulWidget {
   var storeId;
@@ -696,7 +698,7 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                             decoration: BoxDecoration(
                                                 border: Border.all(
                                                     color:
-                                                    Color(0xFFF2F2F2),
+                                                    const Color(0xFFF2F2F2),
                                                     width: 1),
                                                 borderRadius:
                                                 BorderRadius.circular(
@@ -713,7 +715,7 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                               dropdownColor:
                                               Colors.white,
                                               isExpanded: true,
-                                              underline: SizedBox(),
+                                              underline: const SizedBox(),
                                               hint: const Text(
                                                 'Select Screen Size',
                                                 style: TextStyle(
@@ -806,27 +808,27 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                               17.0, 5, 10, 0),
                                           child: Container(
                                             height: 56,
-                                            padding: EdgeInsets.only(
+                                            padding: const EdgeInsets.only(
                                                 left: 16,
                                                 right: 16,
                                                 top: 5),
                                             decoration: BoxDecoration(
                                                 border: Border.all(
                                                     color:
-                                                    Color(0xFFF2F2F2),
+                                                    const Color(0xFFF2F2F2),
                                                     width: 1),
                                                 borderRadius:
                                                 BorderRadius.circular(
                                                     13),
                                                 color:
-                                                Color(0xFFFFFFFFF)),
+                                                const Color(0xFFFFFFFFF)),
                                             child: noOfTimesList == null
-                                                ? SizedBox(
+                                                ? const SizedBox(
                                                 height: 0,
                                                 width:
                                                 double.infinity)
                                                 : DropdownButton(
-                                              icon: Icon(
+                                              icon: const Icon(
                                                 Icons
                                                     .arrow_drop_down_circle_outlined,
                                                 size: 15,
@@ -834,8 +836,8 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                               dropdownColor:
                                               Colors.white,
                                               isExpanded: true,
-                                              underline: SizedBox(),
-                                              hint: Text(
+                                              underline: const SizedBox(),
+                                              hint: const Text(
                                                 'Select No of Times',
                                                 style: TextStyle(
                                                     fontFamily:
@@ -862,7 +864,7 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                                   child: new Text(
                                                     item['NoofTimes']
                                                         .toString()+' times',
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         color: Color(
                                                             0xFF000000)),
                                                   ),
@@ -1029,7 +1031,7 @@ class _ChoosePlanState extends State<ChoosePlan> {
                                       child: ListView.builder(
                                         scrollDirection: Axis.horizontal,
                                         shrinkWrap: true,
-                                        physics: BouncingScrollPhysics(),
+                                        physics: const BouncingScrollPhysics(),
                                         itemCount: data1.length,
                                         itemBuilder: (context, index1) {
                                           return GestureDetector(
@@ -1254,19 +1256,23 @@ class _ChoosePlanState extends State<ChoosePlan> {
                   child: Center(
                     child: MaterialButton(
                       onPressed: () {
-                        if (PackageName.text == '') {
-                          Fluttertoast.showToast(
-                              msg: "Please choose package",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.red,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
-                        } else {
-                          getData11();
-                        }
+    if(email=='guest@guest.com') {
+    showAnimatedDialog(context, GuestDialog(), isFlip: true);
+    }else {
+      if (PackageName.text == '') {
+        Fluttertoast.showToast(
+            msg: "Please choose package",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      } else {
+        getData11();
+      }
+    }
                       },
                       textColor: Colors.white,
                       padding: const EdgeInsets.all(0.0),
