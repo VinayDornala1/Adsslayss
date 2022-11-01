@@ -9,14 +9,11 @@ import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'API.dart';
 import 'package:email_validator/email_validator.dart';
-
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
-
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
 }
-
 class _SignUpScreenState extends State<SignUpScreen> {
   final fullNameController = TextEditingController();
   final mobileNumberController = TextEditingController();
@@ -25,8 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String text = "";
   late ProgressDialog pr;
   final emailValid=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-
-
   @override
   Widget build(BuildContext context) {
     pr = ProgressDialog(context);
@@ -473,7 +468,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           OTPScreen(mobileNumber: mobileNumberController.text.toString())));
     } else {
       Fluttertoast.showToast(
-          msg: "Something went wrong, Please try again.",
+          msg: "Number Already Existed",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -483,5 +478,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
     }
   }
+
 
 }

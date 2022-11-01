@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:images_picker/images_picker.dart';
@@ -696,7 +697,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           mainAxisSize: MainAxisSize.min,
           children:  [
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Row(
                 children:  [
                   const Text(
@@ -753,6 +754,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: TextField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(
+                      "[a-zA-Z]"))
+                ],
                 controller: userNameController,
                 readOnly: isEditProfile,
                 decoration: const InputDecoration(
@@ -772,6 +777,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
               child: TextField(
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(
+                      "[a-zA-Z]"))
+                ],
                 controller: lastNameController,
                 readOnly: isEditProfile,
                 decoration: const InputDecoration(
@@ -911,11 +920,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             dropdownColor:
                             Colors.white,
                             isExpanded: true,
-                            underline: SizedBox(),
+                            underline: const SizedBox(),
                             hint:  Padding(
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Text(
-                                ''+stateController.text,
+                                'Select State'+stateController.text,
                                 style: const TextStyle(
                                     fontFamily:
                                     "Lorin",
@@ -967,8 +976,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
                     child: TextField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(
+                            "[a-zA-Z]"))
+                      ],
                       readOnly: isEditProfile,
-
                       controller: cityController,
                       decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -989,9 +1001,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(5, 10, 15, 0),
                     child: TextField(
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(
+                            "[0-9a-zA-Z]"))
+                      ],
                       readOnly: isEditProfile,
                       controller: zipcodeController,
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.name,
                       maxLength: 5,
                       decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(
@@ -1303,7 +1319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
                                         child: Text(
                                           "" + ordersHistoryList[index]["ScreenSize"].toString(),
                                           textAlign: TextAlign.center,

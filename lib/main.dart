@@ -13,8 +13,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_analytics/observer.dart';
 import 'bottom_bar.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
           ),
           home: const SplashScreen(),
           navigatorObservers: [
-            FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)
+            // FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)
           ],
         );
       },

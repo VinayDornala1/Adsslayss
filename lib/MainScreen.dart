@@ -18,8 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:io' show Platform;
 import 'dart:ui';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+// import 'package:firebase_analytics/firebase_analytics.dart';
+// import 'package:firebase_analytics/observer.dart';
 import 'AboutUsScreen.dart';
 import 'AllCategoriesScreen.dart';
 import 'CartScreen.dart';
@@ -43,7 +43,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   BoolProvider _boolProvider = BoolProvider();
-  final FirebaseAnalytics _firebaseAnalytics = FirebaseAnalytics.instance;
+  // final FirebaseAnalytics _firebaseAnalytics = FirebaseAnalytics.instance;
   final int _currentIndex = BottomNavigationMenu.indexbottom;
   String Email = '';
   String MobileNo = '';
@@ -125,28 +125,28 @@ class _MainScreenState extends State<MainScreen> {
    initState()  {
     super.initState();
     print("object$_currentIndex");
-    _logAppOpen();
-    _setAnalyticsProperties();
+    // _logAppOpen();
+    // _setAnalyticsProperties();
 
     getdata();
-     _firebaseAnalytics.logEvent(name: '$MainScreen',parameters: {
-      'special_purchase_amount': 100,
-      'item_id': 'item-001',
-    });
+    //  _firebaseAnalytics.logEvent(name: '$MainScreen',parameters: {
+    //   'special_purchase_amount': 100,
+    //   'item_id': 'item-001',
+    // });
   }
 
 
-  void _logAppOpen() async {
-    await _firebaseAnalytics.logAppOpen();
+  // void _logAppOpen() async {
+  //   await _firebaseAnalytics.logAppOpen();
+  //
+  // }
 
-  }
-
-  void _setAnalyticsProperties() async {
-    await _firebaseAnalytics.setUserId(id: '000001');
-    await _firebaseAnalytics.setUserProperty(
-        name: '$MainScreen', value: 'value');
-
-  }
+  // void _setAnalyticsProperties() async {
+  //   await _firebaseAnalytics.setUserId(id: '000001');
+  //   await _firebaseAnalytics.setUserProperty(
+  //       name: '$MainScreen', value: 'value');
+  //
+  // }
   @override
   Widget build(BuildContext context) {
     _boolProvider = Provider.of<BoolProvider>(

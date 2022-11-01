@@ -499,7 +499,7 @@ class _VendorRegisterState extends State<VendorUpload> {
       });
       print(''+res111![0].path.toString());
       await pr.show();
-      File compressedFile = await FlutterNativeImage.compressImage(res111![0].path.toString()!,
+      File compressedFile = await FlutterNativeImage.compressImage(res111![0].path.toString(),
         quality: 5,);
       var res = await uploadImage( compressedFile.path, uploadUrl);
       print("File uploading to server response: "+ res.toString());

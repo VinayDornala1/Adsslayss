@@ -549,9 +549,9 @@ class _ChoosePlanState extends State<ChoosePlan> {
                       ],
                     )
                 ):Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 5, 8),
+                  padding: const EdgeInsets.fromLTRB(15, 0, 5, 8),
                   child: Text(
-                    "$title - $city,$state,$country",
+                    "$title - $city,$state",
                     maxLines: 2,
                     style: const TextStyle(
                         fontSize: 18.0, fontWeight: FontWeight.w600),

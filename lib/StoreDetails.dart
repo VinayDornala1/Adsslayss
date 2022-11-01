@@ -7,15 +7,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'API.dart';
 import 'Constant/ConstantsColors.dart';
 import 'MainScreen.dart';
 import 'UploadFiles.dart';
-
-
 class StoreDetails extends StatefulWidget {
-
   var storeId;
 
   StoreDetails({
@@ -94,29 +90,19 @@ class _StoreDetailsState extends State<StoreDetails> {
         footTraffic = jsonDecode(response.body)['FootTraffic'];
         type = jsonDecode(response.body)['Type'];
         fileFormat = jsonDecode(response.body)['FileFormat'];
-
       }else{
         print("Unable to get API response.");
       }
-
-
     });
-
     setState(() {
       isLoading = false;
     });
-
-
   }
-
-
   @override
   void initState() {
     super.initState();
     getData();
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -704,9 +690,9 @@ class _StoreDetailsState extends State<StoreDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:  [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
-                                    child: const Text(
+                                    child: Text(
                                       "Type",
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -725,7 +711,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 10, 8),
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 8),
                                       child: Text(
                                         ""+type,
                                         maxLines: 3,
@@ -747,9 +733,9 @@ class _StoreDetailsState extends State<StoreDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
-                                    child: const Text(
+                                    child: Text(
                                       "Ad Screen",
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -768,7 +754,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 10, 8),
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 8),
                                       child: Text(
                                         ""+screenSize,
                                         maxLines: 3,
@@ -790,9 +776,9 @@ class _StoreDetailsState extends State<StoreDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
-                                    child: const Text(
+                                    child: Text(
                                       "File Format",
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -811,7 +797,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 10, 8),
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 8),
                                       child: Text(
                                         ""+fileFormat,
                                         maxLines: 3,
@@ -833,7 +819,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
 
                                     child: Text(
@@ -845,7 +831,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                       ),
                                     ),
                                   ),
-                                  Text(
+                                  const Text(
                                     ":",
                                     style: TextStyle(
                                       fontWeight: FontWeight.normal,
@@ -855,12 +841,12 @@ class _StoreDetailsState extends State<StoreDetails> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 10, 8),
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 8),
                                       child: Text(
                                         ""+footTraffic,
                                         maxLines: 3,
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 15,
                                           color: Colors.black,
@@ -877,9 +863,9 @@ class _StoreDetailsState extends State<StoreDetails> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 100,
-                                    child: const Text(
+                                    child: Text(
                                       "Cost",
                                       style: TextStyle(
                                         fontWeight: FontWeight.normal,
@@ -898,7 +884,7 @@ class _StoreDetailsState extends State<StoreDetails> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsets.fromLTRB(8, 0, 10, 8),
+                                      padding: const EdgeInsets.fromLTRB(8, 0, 10, 8),
                                       child: Text(
                                         "\$"+actualPrice.toString(),
                                         maxLines: 3,

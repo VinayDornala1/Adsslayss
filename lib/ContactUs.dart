@@ -9,7 +9,7 @@ import 'CartScreen.dart';
 import 'Constant/ConstantsColors.dart';
 import 'MainScreen.dart';
 import 'SearchScreen.dart';
-
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
 
@@ -27,11 +27,13 @@ class _HowItWorksState extends State<ContactUs> {
   final zipController = TextEditingController();
   final countryController = TextEditingController();
   final addressController = TextEditingController();
+  var formatter=MaskTextInputFormatter(
+      mask:'(###) ###-####',filter: {"#":RegExp(r'[0-9]')},type: MaskAutoCompletionType.lazy
+      );
   final emailValid = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   int maxLength = 14;
   String text = "";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,7 +128,7 @@ class _HowItWorksState extends State<ContactUs> {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SearchScreen()));
+                          builder: (context) => const SearchScreen()));
                     },
                     child: Card(
                       elevation: 2,
@@ -196,7 +198,6 @@ class _HowItWorksState extends State<ContactUs> {
                               filled: true,
                               fillColor: Colors.transparent,
                               hintText: 'Enter Your Name',
-
                             ),
                           ),
                         ),
@@ -223,6 +224,7 @@ class _HowItWorksState extends State<ContactUs> {
                           padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                           child: TextField(
                             controller: mobileNumberController,
+
                             onChanged: (String newVal) {
                               if (newVal.length <=
                                   maxLength) {
@@ -233,8 +235,10 @@ class _HowItWorksState extends State<ContactUs> {
                               }
                             },
                             autocorrect: false,
-                            inputFormatters: [
-                              MaskedInputFormatter('(###) ###-####')
+                            inputFormatters: [formatter
+                              // formatter=n
+                              // MaskedInputFormatter('(###) ###-####',filter),
+                              // FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),LengthLimitingTextInputFormatter(10)
                             ],
 
                             keyboardType: TextInputType.number,

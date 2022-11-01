@@ -3,6 +3,7 @@ import 'package:adslay/Constant/ConstantsColors.dart';
 import 'package:adslay/SignUp.dart';
 import 'package:adslay/otp_Screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -21,12 +22,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   String _dropDownValue = "+91";
+  int location = 0;
   String countryname = "India";
   int maxLength = 10;
   String text = "";
   late List<dynamic> CountryList;
   final phoneNumber = TextEditingController();
   late ProgressDialog pr;
+  List<String> items = ['+91', '+1'];
 
   // String onesignalPlayerID;
   @override
@@ -70,11 +73,13 @@ class _LoginScreenState extends State<LoginScreen> {
           timeInSecForIosWeb: 1,
           backgroundColor: Colors.red,
           textColor: Colors.white,
-          fontSize: 16.0
-      );
+          fontSize: 16.0);
     } else {
-      Navigator.push(context, MaterialPageRoute(builder: (context) =>
-          OTPScreen(mobileNumber: mobilenumber.text.toString())));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  OTPScreen(mobileNumber: mobilenumber.text.toString())));
     }
   }
 
@@ -95,306 +100,311 @@ class _LoginScreenState extends State<LoginScreen> {
         progressTextStyle: const TextStyle(
             color: Colors.black, fontSize: 10.0, fontWeight: FontWeight.w400),
         messageTextStyle: const TextStyle(
-            color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600)
-    );
+            color: Colors.black, fontSize: 17.0, fontWeight: FontWeight.w600));
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
       child: Scaffold(
           body: SingleChildScrollView(
-            child: Stack(
-                children: <Widget>[
-                  SizedBox(
-                    width: double.infinity,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    child: Image.asset(
-                      "assets/images/login_bg.png", fit: BoxFit.fill,),
-                  ),
-                  Column(
+        child: Stack(children: <Widget>[
+          SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              "assets/images/login_bg.png",
+              fit: BoxFit.fill,
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.60,
+                  height: MediaQuery.of(context).size.height * 0.30,
+                  child: Center(
+                      child: Image.asset(
+                    "assets/images/logo.jpg",
+                    fit: BoxFit.fill,
+                  ))),
+              SizedBox(
+                width: double.infinity,
+                //height: MediaQuery.of(context).size.height * 0.50,
+                child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                          width: MediaQuery
-                              .of(context)
-                              .size
-                              .width * 0.60,
-                          height: MediaQuery
-                              .of(context)
-                              .size
-                              .height * 0.30,
-                          child: Center(
-                              child:
-                              Image.asset(
-                                "assets/images/logo.jpg",
-                                fit: BoxFit.fill,
-                              )
-                          )
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        //height: MediaQuery.of(context).size.height * 0.50,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 30.0, bottom: 0),
-                                child: Center(
-                                  child: Text(
-                                    'HELLO',
-                                    style: TextStyle(
-                                      fontSize: 30.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 5.0, bottom: 10),
-                                child: Text(
-                                  "Please Enter your Registered mobile number to login",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 10.0),
-                                child: Container(
-                                    margin: const EdgeInsets.only(
-                                        left: 30, right: 30),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.grey, width: 1.3),
-                                      // border: Border.all(
-                                      //   width: 1,
-                                      // ),
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
-                                      children: [
-                                        const Padding(
-                                          padding: EdgeInsets.fromLTRB(
-                                              20, 5, 5, 5),
-                                          child: Text('+1', style: TextStyle(
-                                              fontFamily: "montserratbold",
-                                              fontSize: 18,
-                                              letterSpacing: 3.0)),
-                                        ),
-                                        Expanded(
-                                          child: TextField(
-                                            maxLength: 10,
-                                            keyboardType: TextInputType.phone,
-                                            controller: mobilenumber,
-                                            onChanged: (String newVal) {
-                                              if (newVal.length <=
-                                                  maxLength) {
-                                                text = newVal;
-                                              } else {
-                                                mobilenumber
-                                                    .text = text;
-                                              }
-                                            },
-                                            decoration: const InputDecoration(
-                                              hintText: "Enter mobile number",
-                                              border: InputBorder.none,
-                                              counterText: "",
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  //IntrinsicHeight
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0, 25, 0, 10),
-                                child: Center(
-                                  child: MaterialButton(
-                                    onPressed: () {
-                                      if (mobilenumber.text == '') {
-                                        Fluttertoast.showToast(
-                                            msg: "Enter Mobilenumber",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.red,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0
-                                        );
-                                      } else if (text.length < 10) {
-                                        Fluttertoast.showToast(
-                                            msg: "Enter valid Mobile number",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.red,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0
-                                        );
-                                      } else {
-                                        getDataFromAPI();
-                                      }
-                                    },
-                                    textColor: Colors.white,
-                                    padding: const EdgeInsets.all(0.0),
-                                    child: Container(
-                                      width: 180,
-                                      decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Color(0xff3962cb),
-                                              Color(0xff3962cb),
-                                            ],
-                                          )
-                                      ),
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: const Text(
-                                        "GET OTP",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color(0xFFFFFFFF),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: "Lorin"
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(top: 10.0),
-                                child: Text(
-                                  "An OTP will be sent to this number",
-                                  style: TextStyle(
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                ),
-                              ),
-                              const Center(
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                                  child: Text(
-                                    'Or',
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Colors.grey,
-                                      fontFamily: "montserratmedium",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              //for order as guest
-                              GestureDetector(
-                                onTap: () async {
-                                  SharedPreferences prefs = await SharedPreferences
-                                      .getInstance();
-                                  prefs.setInt('userid', 0);
-                                  prefs.setString('username', 'demo');
-                                  prefs.setString('email', "guest@guest.com");
-                                  prefs.setString('mobilenumber', "9999999999");
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              BottomNavigationMenu()));
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 80, right: 80, top: 0),
-                                  width: double.infinity,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  child: Text('Skip Login', style: TextStyle(
-                                      fontSize: 16.0,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: 'montserratbold',
-                                      color: ConstantColors.appTheme),),
-                                ),
-                              ),
-                            ]
+                      const Padding(
+                        padding: EdgeInsets.only(top: 30.0, bottom: 0),
+                        child: Center(
+                          child: Text(
+                            'HELLO',
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.25,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const Center(
-                                child: Text(
-                                  "New to Adslay?",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 10.0, bottom: 50),
-                                child: Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(context, MaterialPageRoute(
-                                          builder: (
-                                              context) => const SignUpScreen()));
+                      const Padding(
+                        padding: EdgeInsets.only(top: 5.0, bottom: 10),
+                        child: Text(
+                          "Please Enter your Registered mobile number to login",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: Container(
+                            margin: const EdgeInsets.only(left: 30, right: 30),
+                            decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.grey, width: 1.3),
+                              // border: Border.all(
+                              //   width: 1,
+                              // ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(20, 5, 5, 5),
+                                    child: DropdownButton(
+                                      underline:
+                                          const DropdownButtonHideUnderline(
+                                              child: Text('')),
+                                      value: _dropDownValue,
+                                      items: items
+                                          .map((String items) =>
+                                              DropdownMenuItem(
+                                                child: Text(
+                                                  items,
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                                value: items,
+                                              ))
+                                          .toList(),
+                                      onChanged: (String? newvalue) {
+                                        setState(() {
+                                          _dropDownValue = newvalue as String;
+                                          location == 0
+                                              ? location = 1
+                                              : location = 0;
+                                        });
+                                      },
+                                    )
+                                    /*Text('+1', style: TextStyle(
+                                              fontFamily: "montserratbold",
+                                              fontSize: 18,
+                                              letterSpacing: 3.0)),*/
+                                    ),
+                                Expanded(
+                                  child: TextField(
+                                    maxLength: 10,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9]")),
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
+                                    keyboardType: TextInputType.phone,
+                                    controller: mobilenumber,
+                                    onChanged: (String newVal) {
+                                      if (newVal.length <= maxLength) {
+                                        text = newVal;
+                                      } else {
+                                        mobilenumber.text = text;
+                                      }
                                     },
-                                    child: Container(
-                                      padding: const EdgeInsets.only(left: 15.0,
-                                          right: 15,
-                                          top: 8,
-                                          bottom: 8),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.white),
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: GradientText(
-                                        ' SIGN UP ',
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                        colors: const [
-                                          Colors.lightGreen,
-                                          Colors.orangeAccent,
-                                          Colors.yellowAccent,
-                                        ],
-                                      ),
+                                    decoration: const InputDecoration(
+                                      hintText: "Enter mobile number",
+                                      border: InputBorder.none,
+                                      counterText: "",
                                     ),
                                   ),
                                 ),
+                              ],
+                            )
+                            //IntrinsicHeight
+                            ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 25, 0, 10),
+                        child: Center(
+                          child: MaterialButton(
+                            onPressed: () {
+                              if (mobilenumber.text == '') {
+                                Fluttertoast.showToast(
+                                    msg: "Enter Mobilenumber",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else if (text.length < 10) {
+                                Fluttertoast.showToast(
+                                    msg: "Enter valid Mobile number",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else {
+                                getDataFromAPI();
+                              }
+                            },
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(0.0),
+                            child: Container(
+                              width: 180,
+                              decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                colors: [
+                                  Color(0xff3962cb),
+                                  Color(0xff3962cb),
+                                ],
+                              )),
+                              padding: const EdgeInsets.all(10.0),
+                              child: const Text(
+                                "GET OTP",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Color(0xFFFFFFFF),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "Lorin"),
                               ),
-                            ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          "An OTP will be sent to this number",
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      const Center(
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                          child: Text(
+                            'Or',
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.grey,
+                              fontFamily: "montserratmedium",
+                            ),
+                          ),
+                        ),
+                      ),
+                      //for order as guest
+                      GestureDetector(
+                        onTap: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setInt('userid', 0);
+                          prefs.setString('username', 'demo');
+                          prefs.setString('email', "guest@guest.com");
+                          prefs.setString('mobilenumber', "9999999999");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      BottomNavigationMenu()));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(
+                              left: 80, right: 80, top: 0),
+                          width: double.infinity,
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Skip Login',
+                            style: TextStyle(
+                                fontSize: 16.0,
+                                decoration: TextDecoration.underline,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'montserratbold',
+                                color: ConstantColors.appTheme),
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.25,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const Center(
+                        child: Text(
+                          "New to Adslay?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 50),
+                        child: Center(
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpScreen()));
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 15.0, right: 15, top: 8, bottom: 8),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.white),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: GradientText(
+                                ' SIGN UP ',
+                                style: const TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                colors: const [
+                                  Colors.lightGreen,
+                                  Colors.orangeAccent,
+                                  Colors.yellowAccent,
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                ]
-            ),
-          )
-      ),
+                ),
+              ),
+            ],
+          ),
+        ]),
+      )),
     );
   }
 }

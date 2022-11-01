@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
@@ -22,7 +23,9 @@ class VendorRegister extends StatefulWidget {
 }
 
 class _VendorRegisterState extends State<VendorRegister> {
-
+  List<String> items = ['+91', '+1'];
+  String _dropDownValue = "+91";
+  int location = 0;
   final fullNameController = TextEditingController();
   final storenameController = TextEditingController();
   final mobileNumberController = TextEditingController();
@@ -34,6 +37,9 @@ class _VendorRegisterState extends State<VendorRegister> {
   final addressController = TextEditingController();
   final emailValid=RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
   bool isLoading = true;
+  var formatter=MaskTextInputFormatter(
+      mask:'(###) ###-####',filter: {"#":RegExp(r'[0-9]')},type: MaskAutoCompletionType.lazy
+  );
   bool isCheckoutAvailable = false;
   List<dynamic> ordersHistoryList = [];
   List<dynamic> userDetails = [];
@@ -54,9 +60,6 @@ class _VendorRegisterState extends State<VendorRegister> {
   List<dynamic> statelists = [];
   List<dynamic> CategoriesList = [];
   String transactionId = '';
-
-
-
   Future<void> getData() async {
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -69,7 +72,6 @@ class _VendorRegisterState extends State<VendorRegister> {
     }catch(e){
       print(e);
     }
-
     String url1 ="http://app.adslay.com/API/HomeAPI/CategoriesList" ;
     print(url1);
     var response11 =
@@ -114,14 +116,11 @@ class _VendorRegisterState extends State<VendorRegister> {
       isLoading=false;
     });
   }
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getData();
-
   }
   @override
   Widget build(BuildContext context) {
@@ -204,6 +203,10 @@ class _VendorRegisterState extends State<VendorRegister> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                             child: TextField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(RegExp(
+                                    "[0-9a-zA-Z]"))
+                              ],
                               controller: fullNameController,
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
@@ -215,7 +218,6 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 filled: true,
                                 fillColor: Colors.transparent,
                                 hintText: 'Enter Your Name',
-
                               ),
                             ),
                           ),Padding(
@@ -232,7 +234,6 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 filled: true,
                                 fillColor: Colors.transparent,
                                 hintText: 'Enter Your Store Name',
-
                               ),
                             ),
                           ),
@@ -240,7 +241,6 @@ class _VendorRegisterState extends State<VendorRegister> {
                             padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                             child: TextField(
                               controller: emailController,
-
                               decoration: const InputDecoration(
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
@@ -270,19 +270,31 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 }
                               },
                               inputFormatters: [
-                                MaskedInputFormatter('(###) ###-####')
+                                formatter
+                                // MaskedInputFormatter('(###) ###-####')
                               ],
 
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                enabledBorder: UnderlineInputBorder(
+                              decoration:  InputDecoration(
+                                enabledBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                 ),
                                 prefixIcon:Padding(
-                                  padding: EdgeInsets.only(top:13.0,left:5),
-                                  child: Text("+1 "),
+                                  padding: EdgeInsets.only(top:0,left:5),
+                                  child: DropdownButton(
+                                    underline: const DropdownButtonHideUnderline(child: Text('')),
+                                    value: _dropDownValue,
+                                    items: items.map((String items) => DropdownMenuItem(child: Text(items,style: TextStyle(color: Colors.black),),
+                                    value: items,)).toList(),
+                                    onChanged: (String? newvalue){
+                                      setState((){
+                                        _dropDownValue=newvalue as String;
+                                        location==0?location=1:location=0;
+                                      });
+                                    },
+                                  ),
                                 ),
-                                focusedBorder: UnderlineInputBorder(
+                                focusedBorder: const UnderlineInputBorder(
                                   borderSide: BorderSide(color: Colors.grey),
                                 ),
                                 filled: true,
@@ -549,6 +561,10 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
                                   child: TextField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(RegExp(
+                                          "[a-zA-Z]"))
+                                    ],
                                     controller: cityController,
                                     decoration: const InputDecoration(
                                       enabledBorder: UnderlineInputBorder(
@@ -560,7 +576,6 @@ class _VendorRegisterState extends State<VendorRegister> {
                                       filled: true,
                                       fillColor: Colors.transparent,
                                       hintText: 'City',
-
                                     ),
                                   ),
                                 ),
@@ -569,8 +584,12 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 child: Padding(
                                   padding: const EdgeInsets.fromLTRB(5, 10, 15, 0),
                                   child: TextField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(RegExp(
+                                          "[0-9a-zA-Z]"))
+                                    ],
                                     controller: zipcodeController,
-                                    keyboardType: TextInputType.number,
+                                    keyboardType: TextInputType.name,
                                     maxLength: 5,
                                     decoration: const InputDecoration(
                                       enabledBorder: UnderlineInputBorder(
@@ -580,7 +599,6 @@ class _VendorRegisterState extends State<VendorRegister> {
                                         borderSide: BorderSide(color: Colors.grey),
                                       ),
                                       counterText: "",
-
                                       filled: true,
                                       fillColor: Colors.transparent,
                                       hintText: 'Enter Zip Code ',
@@ -598,7 +616,7 @@ class _VendorRegisterState extends State<VendorRegister> {
                                 onPressed: () async {
                                   if (fullNameController.text == '') {
                                     Fluttertoast.showToast(
-                                        msg: "enter name",
+                                        msg: "Enter name",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
@@ -606,9 +624,9 @@ class _VendorRegisterState extends State<VendorRegister> {
                                         textColor: Colors.white,
                                         fontSize: 16.0
                                     );
-                                  } if (storenameController.text == '') {
+                                  } else if (storenameController.text == '') {
                                     Fluttertoast.showToast(
-                                        msg: "enter store name",
+                                        msg: "Enter store name",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
@@ -618,7 +636,7 @@ class _VendorRegisterState extends State<VendorRegister> {
                                     );
                                   } else if (emailController.text == '') {
                                     Fluttertoast.showToast(
-                                        msg: "enter email",
+                                        msg: "Enter email Address",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
@@ -628,7 +646,7 @@ class _VendorRegisterState extends State<VendorRegister> {
                                     );
                                   } else if (!emailValid.hasMatch(emailController.text.toString())) {
                                     Fluttertoast.showToast(
-                                        msg: "enter valid email",
+                                        msg: "Enter valid email",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
@@ -638,7 +656,7 @@ class _VendorRegisterState extends State<VendorRegister> {
                                     );
                                   }else if (mobileNumberController.text == '') {
                                     Fluttertoast.showToast(
-                                        msg: "enter mobile number",
+                                        msg: "Enter mobile number",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
@@ -658,7 +676,7 @@ class _VendorRegisterState extends State<VendorRegister> {
                                     );
                                   }else if (addressController.text == '') {
                                     Fluttertoast.showToast(
-                                        msg: "enter address",
+                                        msg: "Enter address",
                                         toastLength: Toast.LENGTH_SHORT,
                                         gravity: ToastGravity.CENTER,
                                         timeInSecForIosWeb: 1,
