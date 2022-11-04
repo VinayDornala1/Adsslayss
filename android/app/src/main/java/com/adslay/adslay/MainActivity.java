@@ -1,4 +1,4 @@
-package com.adslay.adslaytest;
+package com.adslay.adslay;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.android.FlutterFragmentActivity;

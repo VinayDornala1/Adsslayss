@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
     // StripeService().init();
     return Consumer<BoolProvider>(
       builder: (context, model, child) {
-        return GetMaterialApp(
+        return MaterialApp(
           builder: (context, widget) => ResponsiveWrapper.builder(
             BouncingScrollWrapper.builder(context, widget!),
             maxWidth: 1200,

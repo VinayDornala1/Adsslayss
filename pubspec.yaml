@@ -51,8 +51,8 @@ dependencies:
   dependencies: ^0.1.5
   carousel_pro: ^1.0.0
   another_flushbar: ^1.10.28
-  pinput: ^1.2.0
-#  auto_route: ^4.0.1
+  pinput: ^2.2.16
+  #  auto_route: ^4.0.1
   flutter_svg: ^1.0.3
   connectivity_plus: ^2.3.0
   responsive_framework: ^0.1.4

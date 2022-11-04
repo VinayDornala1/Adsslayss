@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  OTPScreen(mobileNumber: mobilenumber.text.toString())));
+                  OTPScreen(mobileNumber: mobilenumber.text.toString(),Selection:_dropDownValue.toString())));
     }
   }
 
@@ -195,6 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       onChanged: (String? newvalue) {
                                         setState(() {
                                           _dropDownValue = newvalue as String;
+                                          print("_dropDownValue////$_dropDownValue");
                                           location == 0
                                               ? location = 1
                                               : location = 0;
